@@ -1,9 +1,11 @@
 package com.example.bags.model;
 
 public class SheetDetail {
+
     private int id;
     private int detailId;
     private String materialName;
+    private String comment;
 
     public int getId() {
         return id;
@@ -29,12 +31,21 @@ public class SheetDetail {
         this.materialName = materialName;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     @Override
     public String toString() {
         return "SheetDetail{" +
                 "id=" + id +
                 ", detailId=" + detailId +
                 ", materialName='" + materialName + '\'' +
+                ", comment='" + comment + '\'' +
                 '}';
     }
 }

@@ -1,13 +1,26 @@
 package com.example.bags.model;
 
+import com.example.bags.model.Entity.PlanInfoEntity;
+
 import java.util.List;
 
 public class PlanInfo {
 
+    private int id;
     private int bagId;
     private String bagName;
     private int count;
     private List<SheetDetail> sheetDetail;
+
+    public PlanInfo() {
+    }
+
+    public PlanInfo(PlanInfoEntity entity) {
+        this.bagId = entity.getBag().getId();
+        this.bagName = entity.getBag().getName();
+        this.count = entity.getCount();
+        this.id = entity.getId();
+    }
 
     public int getBagId() {
         return bagId;

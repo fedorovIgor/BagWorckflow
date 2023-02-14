@@ -21,7 +21,7 @@ public class CuttingSheet {
 
     public CuttingSheet(PlanInfoEntity entity) {
         this.bagName = entity.getBag().getName();
-        this.vendorCode = getVendorCode();
+        this.vendorCode = entity.getBag().getVendorCode();
         this.count = entity.getCount();
         this.id = entity.getId();
     }

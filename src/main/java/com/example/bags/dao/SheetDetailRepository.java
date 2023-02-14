@@ -1,6 +1,7 @@
 package com.example.bags.dao;
 
 import com.example.bags.model.Entity.MaterialEntity;
+import com.example.bags.model.Entity.PlanInfoEntity;
 import com.example.bags.model.Entity.SheetDetailEntity;
 import com.example.bags.model.SheetDetail;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,5 @@ public interface SheetDetailRepository extends CrudRepository<SheetDetailEntity,
             WHERE s.planInfo = ?1""";
 
     @Query(SELECT_BY_PLAN_INFO_Q)
-    List<SheetDetailEntity> findByPlanInfoId(Integer planInfoId);
+    List<SheetDetailEntity> findByPlanInfoId(PlanInfoEntity planInfoeNTITY);
 }

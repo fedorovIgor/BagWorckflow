@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 public class MaterialController {
 
@@ -23,8 +24,8 @@ public class MaterialController {
     }
 
     @PostMapping("api/v1/material")
-    public void addMaterial(@RequestBody Material material) {
-        this.materialService.addNewMaterial(material);
+    public Material addMaterial(@RequestBody Material material) {
+       return this.materialService.addNewMaterial(material);
     }
 
     @PutMapping("api/v1/material")

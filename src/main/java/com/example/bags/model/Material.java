@@ -1,11 +1,13 @@
 package com.example.bags.model;
 
 import com.example.bags.model.Entity.MaterialEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Material {
 
     private int id;
     private String name;
+    @JsonProperty("balance")
     private Integer count;
 
     public Material() {

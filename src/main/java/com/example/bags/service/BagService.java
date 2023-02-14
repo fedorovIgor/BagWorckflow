@@ -24,16 +24,20 @@ public class BagService {
     }
 
     @Transactional
-    public void insertBag(Bag bag) {
+    public Bag insertBag(Bag bag) {
 
         if (bag.getName() == "" || bag.getVendorCode() == null)
-            throw  new RuntimeException("need more info");
+            throw  new RuntimeException("need more info " + bag);
 
         var bagEntity = new BagEntity(bag);
 
         this.bagRepository.save(bagEntity);
 
         this.saveDetails(bag.getDetails(), bagEntity);
+
+        bag.setId(bagEntity.getId());
+
+        return bag;
     }
 
     private void saveDetails(List<Detail> details, BagEntity bagEntity) {

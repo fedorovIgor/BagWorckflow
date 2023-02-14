@@ -3,6 +3,7 @@ package com.example.bags.model.Entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "sheet_detail")
 public class SheetDetailEntity {
 
     @Id

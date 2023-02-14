@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 public class BagController {
 
@@ -16,8 +17,8 @@ public class BagController {
     }
 
     @PostMapping("api/v1/bag")
-    public void insertBag(@RequestBody Bag bag) {
-        this.bagService.insertBag(bag);
+    public Bag insertBag(@RequestBody Bag bag) {
+        return this.bagService.insertBag(bag);
     }
 
     @GetMapping("api/v1/bag/{id}")

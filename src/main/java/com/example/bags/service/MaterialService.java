@@ -31,7 +31,7 @@ public class MaterialService {
         return result;
     }
 
-    public void addNewMaterial(Material material) {
+    public Material addNewMaterial(Material material) {
 
         if (material.getName() == null || material.getCount() == null)
             throw new RuntimeException("need more information: " + material);
@@ -43,6 +43,10 @@ public class MaterialService {
         var materialEntity = new MaterialEntity(material);
 
         this.materialRepository.save(materialEntity);
+
+        material.setId(materialEntity.getId());
+
+        return material;
     }
 
     @Transactional

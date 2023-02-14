@@ -3,12 +3,13 @@ package com.example.bags.model.Entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "plan_info")
 public class PlanInfoEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private int count;
+    private Integer count;
 
     @ManyToOne
     @JoinColumn(name="bag_id")

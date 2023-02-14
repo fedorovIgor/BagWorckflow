@@ -7,7 +7,6 @@ import com.example.bags.model.Entity.SheetDetailEntity;
 import com.example.bags.model.Plan;
 import com.example.bags.model.PlanInfo;
 import com.example.bags.model.SheetDetail;
-import jakarta.annotation.security.RunAs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +46,7 @@ public class PlanService {
     private void savePlanInfo(PlanInfo planInfo, PlanEntity plan) {
         var planInfoEntity = new PlanInfoEntity();
 
-        planInfoEntity.setCount(planInfoEntity.getCount());
+        planInfoEntity.setCount(planInfo.getCount());
 
         var bagEntity = this.bagRepository.findById(planInfo.getBagId())
                 .orElseThrow(() -> new RuntimeException("cant find bag with id: " + planInfo.getBagId()));
@@ -57,7 +56,7 @@ public class PlanService {
 
         this.planIfoRepository.save(planInfoEntity);
 
-        for (var i : planInfo.getSheetDetail()) {
+        for (var i : planInfo.getSheetDetails()) {
             this.addDetailInfo(i, planInfoEntity);
         }
     }
@@ -101,7 +100,7 @@ public class PlanService {
     public Plan getPlanById(Integer planId) {
 
         var planEntity = this.planRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("cant finde plan by id: " + planId));
+                .orElseThrow(() -> new RuntimeException("cant find plan by id: " + planId));
 
         var info = planEntity.getPlansInfo().stream()
                 .map(e -> new PlanInfo(e))

@@ -1,6 +1,7 @@
 package com.example.bags.model;
 
 import com.example.bags.model.Entity.BagEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ public class Bag {
 
     private int id;
     private String name;
+    @JsonProperty("attribute")
     private Integer vendorCode;
     private List<Detail> details;
 

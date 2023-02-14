@@ -4,6 +4,7 @@ import com.example.bags.model.Detail;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "detail")
 public class DetailEntity {
 
     @Id

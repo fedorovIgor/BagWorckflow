@@ -7,6 +7,7 @@ import jdk.jfr.Enabled;
 import java.util.List;
 
 @Entity
+@Table(name = "bag")
 public class BagEntity {
 
     @Id

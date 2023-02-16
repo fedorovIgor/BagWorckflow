@@ -1,6 +1,7 @@
 package com.example.bags.service;
 
 import com.example.bags.dao.MaterialRepository;
+import com.example.bags.exception.ServiceRuntimeException;
 import com.example.bags.model.Entity.MaterialEntity;
 import com.example.bags.model.Material;
 import jakarta.transaction.Transactional;
@@ -34,11 +35,11 @@ public class MaterialService {
     public Material addNewMaterial(Material material) {
 
         if (material.getName() == null || material.getCount() == null)
-            throw new RuntimeException("need more information: " + material);
+            throw new ServiceRuntimeException("need more information in material: " + material);
 
         var  optionalEntity = this.materialRepository.findByName(material.getName());
         if (optionalEntity.isPresent())
-            throw new RuntimeException("material is already present: " + material);
+            throw new ServiceRuntimeException("material is already present: " + material);
 
         var materialEntity = new MaterialEntity(material);
 
@@ -53,7 +54,7 @@ public class MaterialService {
     public Material updateMaterialByName(Material material) {
 
         var  entity = this.materialRepository.findByName(material.getName())
-                .orElseThrow(()  -> new RuntimeException("can not find material by name: " + material));
+                .orElseThrow(()  -> new ServiceRuntimeException("can not find material by name: " + material));
 
         entity.setCount(material.getCount());
 

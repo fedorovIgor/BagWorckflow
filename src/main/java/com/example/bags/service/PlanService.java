@@ -1,6 +1,7 @@
 package com.example.bags.service;
 
 import com.example.bags.dao.*;
+import com.example.bags.exception.ServiceRuntimeException;
 import com.example.bags.model.Entity.PlanEntity;
 import com.example.bags.model.Entity.PlanInfoEntity;
 import com.example.bags.model.Entity.SheetDetailEntity;
@@ -30,10 +31,10 @@ public class PlanService {
         var  sheetDetailEntity = new SheetDetailEntity();
 
         var materialEntity = this.materialRepository.findByName(sheetDetail.getMaterialName())
-                .orElseThrow(() ->  new RuntimeException("cant find material by name: " + sheetDetail.getMaterialName()));
+                .orElseThrow(() ->  new ServiceRuntimeException("cant find material by name: " + sheetDetail.getMaterialName()));
 
         var detailEntity = this.detailRepository.findById(sheetDetail.getDetailId())
-                .orElseThrow(() -> new RuntimeException("cant find detail by id: " + sheetDetail.getDetailId()));
+                .orElseThrow(() -> new ServiceRuntimeException("cant find detail by id: " + sheetDetail.getDetailId()));
 
         sheetDetailEntity.setDetail(detailEntity);
         sheetDetailEntity.setMaterial(materialEntity);
@@ -49,7 +50,7 @@ public class PlanService {
         planInfoEntity.setCount(planInfo.getCount());
 
         var bagEntity = this.bagRepository.findById(planInfo.getBagId())
-                .orElseThrow(() -> new RuntimeException("cant find bag with id: " + planInfo.getBagId()));
+                .orElseThrow(() -> new ServiceRuntimeException("cant find bag with id: " + planInfo.getBagId()));
 
         planInfoEntity.setBag(bagEntity);
         planInfoEntity.setPlan(plan);
@@ -65,7 +66,7 @@ public class PlanService {
         var planEntity  = new PlanEntity();
 
         if  (plan.getPlanInfo() == null || plan.getPlanInfo().size() == 0)
-            throw new RuntimeException("plan is empty: " + plan);
+            throw new ServiceRuntimeException("plan is empty: " + plan);
 
         if (plan.getDate() == null)
             planEntity.setDate(LocalDateTime.now());
@@ -100,7 +101,7 @@ public class PlanService {
     public Plan getPlanById(Integer planId) {
 
         var planEntity = this.planRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("cant find plan by id: " + planId));
+                .orElseThrow(() -> new ServiceRuntimeException("cant find plan by id: " + planId));
 
         var info = planEntity.getPlansInfo().stream()
                 .map(e -> new PlanInfo(e))

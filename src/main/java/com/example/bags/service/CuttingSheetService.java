@@ -2,6 +2,7 @@ package com.example.bags.service;
 
 import com.example.bags.dao.PlanIfoRepository;
 import com.example.bags.dao.SheetDetailRepository;
+import com.example.bags.exception.ServiceRuntimeException;
 import com.example.bags.model.CuttingSheet;
 import com.example.bags.model.CuttingSheetDetail;
 import com.example.bags.model.Entity.PlanInfoEntity;
@@ -18,7 +19,7 @@ public class CuttingSheetService {
     public CuttingSheet getSheetById(int planInfoId) {
 
         var planInfoEntity = this.planIfoRepository.findById(planInfoId)
-                .orElseThrow(() -> new RuntimeException("cant find by id: " + planInfoId));
+                .orElseThrow(() -> new ServiceRuntimeException("cant find planInfo by id: " + planInfoId));
 
         var cuttingSheet = new CuttingSheet(planInfoEntity);
 

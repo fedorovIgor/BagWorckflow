@@ -3,10 +3,7 @@ package com.example.bags.controller;
 import com.example.bags.model.CuttingSheet;
 import com.example.bags.service.CuttingSheetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,11 @@ public class CuttingSheetController {
     @GetMapping("api/v1/position-status")
     public List<String> getStatuses() {
         return this.cuttingSheetService.getPositionStatuses();
+    }
+
+    @PutMapping("api/v1/sheet")
+    public CuttingSheet updateStatus(@RequestBody CuttingSheet cuttingSheet) {
+        return this.cuttingSheetService.updatePositionStatus(cuttingSheet);
     }
 
 }

@@ -46,4 +46,19 @@ public class CuttingSheetService {
                 .map(PositionStatus::name)
                 .toList();
     }
+
+    public CuttingSheet updatePositionStatus(CuttingSheet cuttingSheet) {
+
+        var status = Arrays.stream(PositionStatus.values())
+                .filter(s -> s.equals(cuttingSheet.getStatus()))
+                .findFirst()
+                .orElseThrow(()-> new ServiceRuntimeException("incorrect status in cuttingSheet: " + cuttingSheet));
+
+        var planInfoEntity = this.planIfoRepository.findById(cuttingSheet.getId())
+                .orElseThrow(() -> new ServiceRuntimeException("cant find planInfo by id: " + cuttingSheet));
+
+        planInfoEntity.setPositionStatus(status);
+
+        return cuttingSheet;
+    }
 }

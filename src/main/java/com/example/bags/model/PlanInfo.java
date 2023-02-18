@@ -17,6 +17,7 @@ public class PlanInfo {
     private String bagName;
     private int count;
     private List<SheetDetail> sheetDetails;
+    private PositionStatus positionStatus;
 
     public PlanInfo() {
     }
@@ -26,6 +27,7 @@ public class PlanInfo {
         this.bagName = entity.getBag().getName();
         this.count = entity.getCount();
         this.id = entity.getId();
+        this.positionStatus = entity.getPositionStatus();
     }
 
 }

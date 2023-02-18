@@ -2,17 +2,22 @@ package com.example.bags.service;
 
 import com.example.bags.dao.*;
 import com.example.bags.exception.ServiceRuntimeException;
+import com.example.bags.model.Entity.BagEntity;
 import com.example.bags.model.Entity.PlanEntity;
 import com.example.bags.model.Entity.PlanInfoEntity;
 import com.example.bags.model.Entity.SheetDetailEntity;
 import com.example.bags.model.Plan;
 import com.example.bags.model.PlanInfo;
+import com.example.bags.model.PositionStatus;
 import com.example.bags.model.SheetDetail;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -31,10 +36,12 @@ public class PlanService {
         var  sheetDetailEntity = new SheetDetailEntity();
 
         var materialEntity = this.materialRepository.findByName(sheetDetail.getMaterialName())
-                .orElseThrow(() ->  new ServiceRuntimeException("cant find material by name: " + sheetDetail.getMaterialName()));
+                .orElseThrow(() ->  new ServiceRuntimeException("cant find material by name: " + sheetDetail.getMaterialName()
+                    + " in planInfo: " + planInfoEntity));
 
         var detailEntity = this.detailRepository.findById(sheetDetail.getDetailId())
-                .orElseThrow(() -> new ServiceRuntimeException("cant find detail by id: " + sheetDetail.getDetailId()));
+                .orElseThrow(() -> new ServiceRuntimeException("cant find detail by id: " + sheetDetail.getDetailId()
+                        + " in planInfo: " + planInfoEntity));
 
         sheetDetailEntity.setDetail(detailEntity);
         sheetDetailEntity.setMaterial(materialEntity);
@@ -47,10 +54,29 @@ public class PlanService {
     private void savePlanInfo(PlanInfo planInfo, PlanEntity plan) {
         var planInfoEntity = new PlanInfoEntity();
 
-        planInfoEntity.setCount(planInfo.getCount());
+        if (planInfo.getSheetDetails() == null)
+            throw new ServiceRuntimeException("details in planInfo doesn't present: " + planInfo
+                    + " in Plan: " + plan);
 
         var bagEntity = this.bagRepository.findById(planInfo.getBagId())
                 .orElseThrow(() -> new ServiceRuntimeException("cant find bag with id: " + planInfo.getBagId()));
+
+        if (bagEntity.getDetails().size() != planInfo.getSheetDetails().size())
+            throw new ServiceRuntimeException("details not matched, in bag: " + bagEntity.getDetails().size()
+                    + " in planInfo: " + planInfo.getSheetDetails().size()
+                    + " in Plan: " + plan);
+
+        this.checkBagDetails(planInfo, bagEntity);
+
+        if (planInfo.getCount() <= 0)
+            throw new ServiceRuntimeException("count in planInfo cant be null or less 0: " + planInfo);
+
+        planInfoEntity.setCount(planInfo.getCount());
+
+        if (planInfo.getPositionStatus() == null)
+            planInfoEntity.setPositionStatus(PositionStatus.PLANNED);
+        else
+            planInfoEntity.setPositionStatus(planInfo.getPositionStatus());
 
         planInfoEntity.setBag(bagEntity);
         planInfoEntity.setPlan(plan);
@@ -62,6 +88,23 @@ public class PlanService {
         }
     }
 
+    private void checkBagDetails(PlanInfo planInfo, BagEntity bagEntity) {
+        var correctDetailsId = new HashSet<Integer>();
+
+        for (var d : bagEntity.getDetails()) {
+            correctDetailsId.add(d.getId());
+        }
+
+        for (var detail : planInfo.getSheetDetails()) {
+            if (!correctDetailsId.contains(detail.getDetailId()))
+                throw new ServiceRuntimeException("this plan info contains incorrect details id: " + detail.getDetailId()
+                        + " correct details id: " + correctDetailsId );
+            else
+                correctDetailsId.remove(detail.getDetailId());
+        }
+    }
+
+    @Transactional
     public void savePlan(Plan plan) {
         var planEntity  = new PlanEntity();
 

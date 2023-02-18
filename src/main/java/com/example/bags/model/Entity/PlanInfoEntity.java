@@ -1,9 +1,14 @@
 package com.example.bags.model.Entity;
 
+import com.example.bags.model.PositionStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "plan_info")
+@Getter
+@Setter
 public class PlanInfoEntity {
 
     @Id
@@ -19,36 +24,17 @@ public class PlanInfoEntity {
     @JoinColumn(name="plan_id")
     private PlanEntity plan;
 
+    @Enumerated(EnumType.STRING)
+    private PositionStatus positionStatus;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public BagEntity getBag() {
-        return bag;
-    }
-
-    public void setBag(BagEntity bag) {
-        this.bag = bag;
-    }
-
-    public PlanEntity getPlan() {
-        return plan;
-    }
-
-    public void setPlan(PlanEntity plan) {
-        this.plan = plan;
+    @Override
+    public String toString() {
+        return "PlanInfoEntity{" +
+                "id=" + id +
+                ", count=" + count +
+                ", bag=" + bag +
+                ", plan=" + plan +
+                ", positionStatus=" + positionStatus +
+                '}';
     }
 }

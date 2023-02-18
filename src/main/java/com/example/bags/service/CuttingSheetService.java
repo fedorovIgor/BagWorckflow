@@ -6,8 +6,13 @@ import com.example.bags.exception.ServiceRuntimeException;
 import com.example.bags.model.CuttingSheet;
 import com.example.bags.model.CuttingSheetDetail;
 import com.example.bags.model.Entity.PlanInfoEntity;
+import com.example.bags.model.PositionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +39,11 @@ public class CuttingSheetService {
         cuttingSheet.setDetails(sheetDetails);
 
         return cuttingSheet;
+    }
+
+    public List<String> getPositionStatuses() {
+        return Stream.of(PositionStatus.values())
+                .map(PositionStatus::name)
+                .toList();
     }
 }

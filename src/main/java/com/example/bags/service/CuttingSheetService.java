@@ -58,6 +58,7 @@ public class CuttingSheetService {
                 .orElseThrow(() -> new ServiceRuntimeException("cant find planInfo by id: " + cuttingSheet));
 
         planInfoEntity.setPositionStatus(status);
+        this.planIfoRepository.save(planInfoEntity);
 
         return cuttingSheet;
     }

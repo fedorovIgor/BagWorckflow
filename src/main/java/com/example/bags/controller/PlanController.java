@@ -6,9 +6,7 @@ import com.example.bags.model.PlanPage;
 import com.example.bags.service.PlanService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://192.168.1.100"}, maxAge = 3600)
 @RestController
 public class PlanController {
 

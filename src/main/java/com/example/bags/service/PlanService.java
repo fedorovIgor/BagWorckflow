@@ -2,16 +2,14 @@ package com.example.bags.service;
 
 import com.example.bags.dao.*;
 import com.example.bags.exception.ServiceRuntimeException;
+import com.example.bags.model.*;
 import com.example.bags.model.Entity.BagEntity;
 import com.example.bags.model.Entity.PlanEntity;
 import com.example.bags.model.Entity.PlanInfoEntity;
 import com.example.bags.model.Entity.SheetDetailEntity;
-import com.example.bags.model.Plan;
-import com.example.bags.model.PlanInfo;
-import com.example.bags.model.PositionStatus;
-import com.example.bags.model.SheetDetail;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.util.EnumUtils;
 
@@ -122,11 +120,13 @@ public class PlanService {
             this.savePlanInfo(i, planEntity);
     }
 
-    public List<Plan> getAllPlans() {
+    public PlanPage getAllPlans(Integer page, Integer size) {
 
         List<Plan> plans = new ArrayList<>();
 
-        this.planRepository.findAll().forEach( planEntity -> {
+        var pageable = this.planRepository.findAll(PageRequest.of(page, size));
+
+        pageable.forEach(planEntity -> {
             var plan = new Plan(planEntity);
 
             var info = planEntity.getPlansInfo().stream()
@@ -138,7 +138,12 @@ public class PlanService {
             plans.add(plan);
         });
 
-        return plans;
+        var planPage = new PlanPage();
+        planPage.setTotalPlans(pageable.getTotalElements());
+        planPage.setTotalPages(pageable.getTotalPages());
+        planPage.setPlans(plans);
+
+        return planPage;
     }
 
     public Plan getPlanById(Integer planId) {

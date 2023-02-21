@@ -2,6 +2,7 @@ package com.example.bags.controller;
 
 import com.example.bags.model.Plan;
 import com.example.bags.model.PlanInfo;
+import com.example.bags.model.PlanPage;
 import com.example.bags.service.PlanService;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,9 @@ public class PlanController {
 
 
     @GetMapping("api/v1/plan")
-    public List<Plan> getAllPlans() {
-        return this.planService.getAllPlans();
+    public PlanPage getAllPlans(@RequestParam Integer page,
+                                @RequestParam Integer size) {
+        return this.planService.getAllPlans(page, size);
     }
 
     @GetMapping("api/v1/plan/{id}")

@@ -14,8 +14,10 @@ public interface SheetDetailRepository extends CrudRepository<SheetDetailEntity,
     String SELECT_BY_PLAN_INFO_Q = """
             SELECT s
             FROM SheetDetailEntity s
+            LEFT JOIN FETCH s.detail
+            LEFT JOIN FETCH s.material
             WHERE s.planInfo = ?1""";
 
     @Query(SELECT_BY_PLAN_INFO_Q)
-    List<SheetDetailEntity> findByPlanInfoId(PlanInfoEntity planInfoeNTITY);
+    List<SheetDetailEntity> findByPlanInfoId(PlanInfoEntity planInfoEntity);
 }

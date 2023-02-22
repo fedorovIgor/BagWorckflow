@@ -10,6 +10,7 @@ import com.example.bags.model.Entity.SheetDetailEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.util.EnumUtils;
 
@@ -124,7 +125,11 @@ public class PlanService {
 
         List<Plan> plans = new ArrayList<>();
 
-        var pageable = this.planRepository.findAll(PageRequest.of(page, size));
+        var pageable = this.planRepository.findAll(PageRequest.of(
+                page,
+                size,
+                Sort.by("date").descending()
+        ));
 
         pageable.forEach(planEntity -> {
             var plan = new Plan(planEntity);

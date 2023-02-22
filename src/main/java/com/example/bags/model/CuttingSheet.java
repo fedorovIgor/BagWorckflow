@@ -29,6 +29,7 @@ public class CuttingSheet {
         this.count = entity.getCount();
         this.id = entity.getId();
         this.status = entity.getPositionStatus();
-        this.materialName = entity.getMaterial().getName();
+        if (entity.getMaterial() != null)
+            this.materialName = entity.getMaterial().getName();
     }
 }

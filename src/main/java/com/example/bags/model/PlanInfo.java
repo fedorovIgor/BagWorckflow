@@ -29,7 +29,8 @@ public class PlanInfo {
         this.count = entity.getCount();
         this.id = entity.getId();
         this.positionStatus = entity.getPositionStatus();
-        this.materialName = entity.getMaterial().getName();
+        if (entity.getMaterial() != null)
+            this.materialName = entity.getMaterial().getName();
     }
 
 }

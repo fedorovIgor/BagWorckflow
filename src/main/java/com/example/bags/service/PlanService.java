@@ -57,6 +57,10 @@ public class PlanService {
             throw new ServiceRuntimeException("details in planInfo doesn't present: " + planInfo
                     + " in Plan: " + plan);
 
+        var materialEntity = this.materialRepository.findByName(planInfo.getMaterialName())
+                .orElseThrow(() ->  new ServiceRuntimeException("cant find material by name: " + planInfo.getMaterialName()
+                        + " in planInfo: " + planInfo));
+
         var bagEntity = this.bagRepository.findById(planInfo.getBagId())
                 .orElseThrow(() -> new ServiceRuntimeException("cant find bag with id: " + planInfo.getBagId()));
 
@@ -79,6 +83,7 @@ public class PlanService {
 
         planInfoEntity.setBag(bagEntity);
         planInfoEntity.setPlan(plan);
+        planInfoEntity.setMaterial(materialEntity);
 
         this.planIfoRepository.save(planInfoEntity);
 

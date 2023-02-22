@@ -16,6 +16,7 @@ public class CuttingSheet {
     private String bagName;
     private int vendorCode;
     private int count;
+    private String materialName;
     private PositionStatus status;
     private List<CuttingSheetDetail> details;
 
@@ -28,5 +29,6 @@ public class CuttingSheet {
         this.count = entity.getCount();
         this.id = entity.getId();
         this.status = entity.getPositionStatus();
+        this.materialName = entity.getMaterial().getName();
     }
 }

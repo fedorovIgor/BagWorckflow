@@ -17,6 +17,10 @@ public class PlanInfoEntity {
     private Integer count;
 
     @ManyToOne
+    @JoinColumn(name="material_id")
+    private MaterialEntity material;
+
+    @ManyToOne
     @JoinColumn(name="bag_id")
     private BagEntity bag;
 

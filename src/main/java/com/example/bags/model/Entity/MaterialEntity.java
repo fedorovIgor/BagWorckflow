@@ -2,9 +2,12 @@ package com.example.bags.model.Entity;
 
 import com.example.bags.model.Material;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "material")
+@Getter @Setter
 public class MaterialEntity {
 
     @Id
@@ -12,6 +15,10 @@ public class MaterialEntity {
     private int id;
     private String name;
     private int count;
+
+    @OneToOne
+    @JoinColumn(name = "material_price_id", referencedColumnName = "id")
+    private MaterialPriseEntity  materialPrise;
 
     public MaterialEntity() {
     }
@@ -21,27 +28,4 @@ public class MaterialEntity {
         this.count = material.getCount();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 }

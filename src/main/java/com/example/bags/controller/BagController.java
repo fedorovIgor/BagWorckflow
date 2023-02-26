@@ -1,6 +1,7 @@
 package com.example.bags.controller;
 
 import com.example.bags.model.Bag;
+import com.example.bags.model.BagPriceInfo;
 import com.example.bags.service.BagService;
 import org.springframework.web.bind.annotation.*;
 

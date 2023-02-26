@@ -3,15 +3,16 @@ package com.example.bags.service;
 import com.example.bags.dao.PlanIfoRepository;
 import com.example.bags.dao.SheetDetailRepository;
 import com.example.bags.exception.ServiceRuntimeException;
-import com.example.bags.model.CuttingSheet;
-import com.example.bags.model.CuttingSheetDetail;
+import com.example.bags.model.*;
 import com.example.bags.model.Entity.PlanInfoEntity;
-import com.example.bags.model.PositionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @Service
@@ -61,5 +62,46 @@ public class CuttingSheetService {
         this.planIfoRepository.save(planInfoEntity);
 
         return cuttingSheet;
+    }
+
+    public BagPriceInfo getBagPriceById(Integer sheetId) {
+        var planInfoEntity = this.planIfoRepository.findById(sheetId)
+                .orElseThrow(() -> new ServiceRuntimeException("cant find planInfo by id: " + sheetId));
+
+        var materialConsumptions = sheetDetailRepository.findByPlanInfoId(planInfoEntity).stream()
+                .map(e -> new MaterialConsumption(e) )
+                .toList();
+
+        var mapMaterial = new HashMap<String, MaterialConsumption>();
+        for (var c : materialConsumptions) {
+            String key = c.getMaterialName();
+
+            if (mapMaterial.containsKey(key)) {
+                var temp = mapMaterial.get(key);
+                temp.addCount(c.getDetailsCount());
+                temp.calculateTotalPrice();
+
+                mapMaterial.put(key, temp);
+            } else {
+                mapMaterial.put(key, c);
+            }
+
+        }
+
+        var materialList = mapMaterial.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .toList();
+
+        var bagPrice = new BagPriceInfo(planInfoEntity);
+        bagPrice.setMaterialsConsumption(materialList);
+
+        var totalBagPrice = materialConsumptions.stream()
+                .map(MaterialConsumption::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        bagPrice.setBagPrice(totalBagPrice);
+        bagPrice.setTotalPrice(totalBagPrice.multiply(new BigDecimal( bagPrice.getBagsCount())));
+
+        return bagPrice;
     }
 }

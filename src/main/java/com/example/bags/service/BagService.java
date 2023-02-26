@@ -4,6 +4,7 @@ import com.example.bags.dao.BagRepository;
 import com.example.bags.dao.DetailRepository;
 import com.example.bags.exception.ServiceRuntimeException;
 import com.example.bags.model.Bag;
+import com.example.bags.model.BagPriceInfo;
 import com.example.bags.model.Detail;
 import com.example.bags.model.Entity.BagEntity;
 import com.example.bags.model.Entity.DetailEntity;

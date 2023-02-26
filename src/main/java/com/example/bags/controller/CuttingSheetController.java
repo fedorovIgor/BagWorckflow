@@ -1,5 +1,6 @@
 package com.example.bags.controller;
 
+import com.example.bags.model.BagPriceInfo;
 import com.example.bags.model.CuttingSheet;
 import com.example.bags.service.CuttingSheetService;
 import lombok.RequiredArgsConstructor;
@@ -29,4 +30,9 @@ public class CuttingSheetController {
         return this.cuttingSheetService.updatePositionStatus(cuttingSheet);
     }
 
+
+    @GetMapping("api/v1/sheet/{sheetId}/price")
+    public BagPriceInfo getBagPriceById(@PathVariable Integer sheetId) {
+        return  this.cuttingSheetService.getBagPriceById(sheetId);
+    }
 }

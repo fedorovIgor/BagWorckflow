@@ -31,4 +31,9 @@ public class MaterialController {
     public Material updateMaterial(@RequestBody Material material) {
         return this.materialService.updateMaterialByName(material);
     }
+
+    @PutMapping("api/v1/material/price")
+    public Material updateMMaterialPrice(@RequestBody Material material) {
+        return this.materialService.updateMaterialPrice(material);
+    }
 }

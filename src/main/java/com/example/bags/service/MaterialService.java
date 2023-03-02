@@ -6,9 +6,10 @@ import com.example.bags.exception.ServiceRuntimeException;
 import com.example.bags.model.Entity.MaterialEntity;
 import com.example.bags.model.Entity.MaterialPriseEntity;
 import com.example.bags.model.Material;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -54,8 +55,22 @@ public class MaterialService {
     @Transactional
     public Material updateMaterialByName(Material material) {
 
+        if (material == null || material.getMaterialPrice() == null || material.getName() == null)
+            throw new ServiceRuntimeException("incorrect value in price: " + material);
+
         var  entity = this.materialRepository.findByName(material.getName())
                 .orElseThrow(()  -> new ServiceRuntimeException("can not find material by name: " + material));
+
+        var priceEntity = entity.getMaterialPrise();
+        if (priceEntity == null) {
+            priceEntity = new MaterialPriseEntity();
+            entity.setMaterialPrise(priceEntity);
+        }
+
+
+        priceEntity.setPrice(material.getMaterialPrice());
+
+        this.materialPriseRepository.save(priceEntity);
 
         entity.setCount(material.getCount());
 

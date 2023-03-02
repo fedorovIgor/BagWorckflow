@@ -7,11 +7,11 @@ import com.example.bags.model.Entity.BagEntity;
 import com.example.bags.model.Entity.PlanEntity;
 import com.example.bags.model.Entity.PlanInfoEntity;
 import com.example.bags.model.Entity.SheetDetailEntity;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.time.LocalDateTime;

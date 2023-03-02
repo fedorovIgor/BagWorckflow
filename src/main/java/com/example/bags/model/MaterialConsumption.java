@@ -15,22 +15,20 @@ public class MaterialConsumption {
     private Integer detailArea;
     private BigDecimal price;
     private BigDecimal totalPrice;
-    private Integer detailsCount;
 
     public MaterialConsumption(SheetDetailEntity e) {
         this.materialId = e.getMaterial().getId();
         this.materialName = e.getMaterial().getName();
         this.detailArea = e.getDetail().getArea();
         this.price = e.getMaterial().getMaterialPrise().getPrice();
-        this.detailsCount = e.getDetail().getCount();
         calculateTotalPrice();
     }
 
-    public void addCount(Integer count) {
-        this.detailsCount += count;
+    public void addArea(Integer area) {
+        this.detailArea += area;
     }
 
     public void calculateTotalPrice() {
-        this.totalPrice = this.price.multiply(new BigDecimal(this.detailsCount * detailArea));
+        this.totalPrice = this.price.multiply(new BigDecimal(detailArea));
     }
 }

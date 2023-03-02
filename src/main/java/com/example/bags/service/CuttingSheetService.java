@@ -65,6 +65,7 @@ public class CuttingSheetService {
     }
 
     public BagPriceInfo getBagPriceById(Integer sheetId) {
+
         var planInfoEntity = this.planIfoRepository.findById(sheetId)
                 .orElseThrow(() -> new ServiceRuntimeException("cant find planInfo by id: " + sheetId));
 
@@ -78,7 +79,7 @@ public class CuttingSheetService {
 
             if (mapMaterial.containsKey(key)) {
                 var temp = mapMaterial.get(key);
-                temp.addCount(c.getDetailsCount());
+                temp.addArea(c.getDetailArea());
                 temp.calculateTotalPrice();
 
                 mapMaterial.put(key, temp);

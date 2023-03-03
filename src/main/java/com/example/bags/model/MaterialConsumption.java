@@ -25,7 +25,7 @@ public class MaterialConsumption {
     }
 
     public void addArea(BigDecimal area) {
-        this.detailArea.add(area);
+        this.detailArea = this.detailArea.add(area);
     }
 
     public void calculateTotalPrice() {

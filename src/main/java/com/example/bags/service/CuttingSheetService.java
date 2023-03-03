@@ -96,7 +96,8 @@ public class CuttingSheetService {
         var bagPrice = new BagPriceInfo(planInfoEntity);
         bagPrice.setMaterialsConsumption(materialList);
 
-        var totalBagPrice = materialConsumptions.stream()
+        var totalBagPrice = mapMaterial.entrySet().stream()
+                .map(Map.Entry::getValue)
                 .map(MaterialConsumption::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 

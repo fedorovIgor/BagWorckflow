@@ -1,15 +1,20 @@
 package com.example.bags.model;
 
 import com.example.bags.model.Entity.DetailEntity;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.math.BigDecimal;
+
+@Getter @Setter
 public class Detail {
 
     private Integer id;
     private String name;
     private  int count;
-    private int area;
-    private int length;
-    private int width;
+    private BigDecimal area;
+    private BigDecimal length;
+    private BigDecimal width;
 
     public Detail() {
     }
@@ -23,53 +28,6 @@ public class Detail {
         this.width = e.getWidth();
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public int getArea() {
-        return area;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
 
     @Override
     public String toString() {

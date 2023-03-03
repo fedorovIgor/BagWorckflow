@@ -11,6 +11,7 @@ import com.example.bags.model.Entity.DetailEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,9 +65,9 @@ public class BagService {
     private boolean isCorrectDetail(Detail detail) {
         if ( detail.getCount() <= 0
         || detail.getName() == null || detail.getName().isEmpty()
-        || detail.getArea() <= 0
-        || detail.getLength() <= 0
-        || detail.getWidth() <= 0)
+        || detail.getArea().compareTo(BigDecimal.ZERO) <= 0
+        || detail.getLength().compareTo(BigDecimal.ZERO) < 0
+        || detail.getWidth().compareTo(BigDecimal.ZERO) < 0)
             return false;
 
         return true;

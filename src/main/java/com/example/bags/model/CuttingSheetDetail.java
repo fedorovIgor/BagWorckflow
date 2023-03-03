@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @ToString
@@ -15,9 +17,9 @@ public class CuttingSheetDetail {
     private String materialName;
     private String detailName;
     private String comment;
-    private int area;
-    private int length;
-    private int width;
+    private BigDecimal area;
+    private BigDecimal length;
+    private BigDecimal width;
 
     public CuttingSheetDetail() {
     }

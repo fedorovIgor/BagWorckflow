@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class MaterialConsumption {
     private Integer materialId;
     private String materialName;
-    private Integer detailArea;
+    private BigDecimal detailArea;
     private BigDecimal price;
     private BigDecimal totalPrice;
 
@@ -24,11 +24,11 @@ public class MaterialConsumption {
         calculateTotalPrice();
     }
 
-    public void addArea(Integer area) {
-        this.detailArea += area;
+    public void addArea(BigDecimal area) {
+        this.detailArea.add(area);
     }
 
     public void calculateTotalPrice() {
-        this.totalPrice = this.price.multiply(new BigDecimal(detailArea));
+        this.totalPrice = this.price.multiply(detailArea);
     }
 }

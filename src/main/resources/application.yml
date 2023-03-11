@@ -1,5 +1,6 @@
 server:
   error.include-message: always
+  port: 8085
 
 logging:
   level:
@@ -14,6 +15,10 @@ logging:
 
 spring:
 
+
+  security.oauth2:
+      resourceserver.jwt.issuer-uri: http://localhost:8080/auth/realms/workflow_realm
+
   jpa:
     database: POSTGRESQL
     show-sql: true
@@ -26,3 +31,4 @@ spring:
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
+
